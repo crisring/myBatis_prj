@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.sist.select3">
+
+	<!-- subquery조회 -->
+	<resultMap type="boardDomain" id="boardResult">
+		<result column="NUM" property="num" />
+		<result column="SUBJECT" property="subject" />
+		<result column="WRITER" property="writer" />
+		<result column="INPUT_DATE" property="input_date" />
+		<result column="IP" property="ip" />
+	</resultMap>
+
+	<select id="subquery" resultMap="boardResult">
+		select num, subject, writer,
+		input_date, ip
+		from(select
+		num,subject,writer,input_date,ip,row_number() over(order by
+		input_date
+		desc) r_num
+		from board)
+		where r_num between 1 and 10
+	</select>
+
+
+
+	<!-- union조회 -->
+	<resultMap type="empDomain" id="empResult">
+		<result column="EMPNO" property="empno" />
+		<result column="ENAME" property="ename" />
+		<result column="JOB" property="job" />
+		<result column="SAL" property="sal" />
+		<result column="HIREDATE" property="hiredate" />
+
+	</resultMap>
+
+	<select id="union" resultMap="empResult">
+
+		select empno, ename,
+		job,sal,hiredate
+		from emp
+		union all
+		select empno, ename, job, sal,
+		hiredate
+		from cp_emp2
+
+	</select>
+
+
+
+	<!-- join조회 -->
+	<resultMap type="webMemberDomain" id="webMemberResult">
+		<result column="ID" property="id" />
+		<result column="NAME" property="name" />
+		<result column="BIRTH" property="birth" />
+		<result column="TEL" property="tel" />
+		<result column="ADDR" property="addr" />
+		<result column="ADDR2" property="addr2" />
+		<result column="LANG" property="lang" />
+	</resultMap>
+
+	<select id="join" resultMap="webMemberResult">
+		select wm.id, wm.name, wm.birth,
+		wm.tel, wm.email, wm.addr, wm.addr2,
+		wml.lang
+		from WEB_MEMBER wm,
+		WEB_MEMBER_LANG wml
+		where wm.id(+)=wml.id
+	</select>
+
+
+	<!-- join&amp;subquery조회 -->
+	<resultMap type="boardInfoDomain" id="boardInfoResult">
+		<result column="NUM" property="num" />
+		<result column="SUBJECT" property="subject" />
+		<result column="INPUT_DATE" property="input_date" />
+		<result column="NAME" property="name" />
+		<result column="ID" property="id" />
+		<result column="BIRTH" property="birth" />
+		<result column="GENDER" property="gender" />
+	</resultMap>
+
+
+
+	<select id="joinSubquery" resultMap="boardInfoResult">
+		select num, subject,
+		input_date, name, id, birth,
+		decode(gender,'M','남자','여자') gender
+		from(select b.NUM num, b.SUBJECT subject, b.INPUT_DATE input_date,
+		wm.NAME name,
+		wm.ID id, wm.BIRTH birth, wm.GENDER gender, ROW_NUMBER()
+		OVER (ORDER
+		BY b.INPUT_DATE DESC) AS r_num
+		from board b, web_member wm
+		where wm.ID = b.WRITER)
+		where r_num between 1 and 10
+
+	</select>
+
+
+	<!-- dynamic query조회 -->
+	<!-- transection -->
+	<!-- OGNL if조회 -->
+	<!-- OGNL choose조회 -->
+	<!-- OGNL foreach조회 -->
+	<!-- PLSQL insert -->
+	<!-- PLSQL select -->
+
+
+</mapper>

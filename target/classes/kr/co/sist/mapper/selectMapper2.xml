@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.sist.select2">
+
+	<!-- 행여러개 컬럼하나 조회 -->
+
+	<!-- 검색값 있음 -->
+	<select id="mrsc" resultType="String" parameterType="int">
+		select ename
+		from emp
+		where deptno=#{deptno}
+	</select>
+
+	<!-- 검색값 없음 -->
+	<select id="mrsc2" resultType="String">
+		select ename
+		from emp
+	</select>
+
+
+
+	<!-- 행여러개 컬럼여러개 조회 -->
+
+	<select id="mrmc" resultType="restDomain" parameterType="String">
+		select
+		NUM, RESTAURANT, MENU, INFO, INPUT_DATE
+		from BOOKMARK_REST
+		where id =
+		#{id}
+	</select>
+
+	<sql id="empDup">
+		select empno, ename, sal, job,
+		to_char(hiredate,'yyyy-mm-dd
+		q"분기"
+		hh24:mi') hiredateStr
+		from emp
+
+	</sql>
+
+
+	<!-- 작은 값조회 -->
+	<!-- &lt; 사용 -->
+	<select id="lessThan" resultType="empDomain" parameterType="int">
+		<include refid="empDup" />
+		<![CDATA[
+		
+		where sal <
+		#{sal}
+		]]>
+	</select>
+
+	<!-- 큰 값조회 -->
+	<select id="greaterThan" resultType="empDomain"
+		parameterType="int">
+		<include refid="empDup" />
+		where
+		sal >
+		#{sal}
+	</select>
+
+
+
+	<!-- like 조회 -->
+	<select id="like" resultType="boardDomain"
+		parameterType="String">
+		SELECT num, subject, writer, input_date, ip
+		FROM Board
+		WHERE subject LIKE '%' || #{subject} || '%'
+	</select>
+
+
+
+	<!-- subquery조회 -->
+	<!-- union조회 -->
+	<!-- join조회 -->
+	<!-- join&amp;subquery조회 -->
+	<!-- dynamic query조회 -->
+	<!-- transection -->
+	<!-- OGNL if조회 -->
+	<!-- OGNL choose조회 -->
+	<!-- OGNL foreach조회 -->
+	<!-- PLSQL insert -->
+	<!-- PLSQL select -->
+
+
+</mapper>

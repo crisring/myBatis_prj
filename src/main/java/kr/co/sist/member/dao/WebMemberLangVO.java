@@ -1,0 +1,19 @@
+package kr.co.sist.member.dao;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
+
+public class WebMemberLangVO {
+
+	private String id, lang;
+
+}

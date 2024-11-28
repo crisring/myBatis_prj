@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.sist.select5">
+
+	<!-- 중복쿼리 줄이기 -->
+	<sql id="empDup">
+		select empno, ename, sal, mgr, deptno
+		from emp
+
+	</sql>
+
+
+	<!-- OGNL if조회 -->
+	<!-- 사원번호, 사원명, 연봉, 매니저번호, 부서번호 -->
+	<select id="ognl_if" resultType="empDomain" parameterType="int">
+		<include refid="empDup" />
+
+		<where>
+			<if test="deptno neq 0">
+				deptno = #{deptno}
+			</if>
+		</where>
+
+	</select>
+
+	<select id="ognl_if2" resultType="empDomain"
+		parameterType="ognlVO">
+		<include refid="empDup" />
+		where 1=1
+
+		<if test="deptno neq 0">
+			and deptno = #{deptno}
+		</if>
+		<if test="ename neq null and ename neq ''">
+			and ename = #{ename}
+		</if>
+	</select>
+
+	<!-- OGNL choose조회 -->
+	<select id="ognl_choose" resultType="empDomain"
+		parameterType="int">
+
+		<include refid="empDup" />
+		where
+		<choose>
+			<when test="deptno eq 1">
+				deptno=10
+			</when>
+			<when test="deptno eq 2">
+				deptno=20
+			</when>
+			<otherwise>
+				deptno=30
+			</otherwise>
+		</choose>
+	</select>
+
+
+
+	<!-- OGNL foreach조회 -->
+	<select id="ognl_foreach" resultType="empDomain"
+		parameterType="java.util.HashMap">
+		select empno, ename, job, mgr, hiredate, sal
+		from emp
+		where
+		deptno=#{deptno} and job in
+		<foreach collection="jobArr" index="i" open="(" item="job"
+			separator="," close=")">
+			#{job}
+
+		</foreach>
+	</select>
+
+	<!-- OGNL set -->
+
+	<select id="selectAllEmpno" resultType="int">
+		select empno
+		from cp_emp5
+	</select>
+
+	<select id="selectOneEmpno" resultType="empDomain"
+		parameterType="int">
+		select ename, job, sal,
+		hiredate, sal, comm, deptno
+		from
+		cp_emp5
+		where empno=#{empno}
+	</select>
+
+	<update id="updateEmp" parameterType="empVO">
+		update cp_emp5
+		<set>
+			<if test="ename != null and ename != ''">
+				ename = #{ename},
+			</if>
+			<if test="job != null and job != ''">
+				job = #{job},
+			</if>
+			<if test="sal != null">
+				sal = #{sal},
+			</if>
+			<if test="comm != null">
+				comm = #{comm},
+			</if>
+			<if test="mgr != null">
+				mgr = #{mgr}
+			</if>
+		</set>
+		where empno = #{empno}
+	</update>
+
+
+
+
+	<!-- dynamic query조회 -->
+	<!-- PLSQL insert -->
+	<!-- PLSQL select -->
+
+
+</mapper>

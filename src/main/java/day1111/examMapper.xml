@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.sist.test">
+	<insert id="insertCpDept" parameterType="day1111.CpDeptVO">
+	
+	<!-- cp_dept 테이블에 부서번호, 부서명, 위치를 추가하는 일 -->
+	insert into cp_dept(deptno, dname, loc)
+	values(#{deptno}, #{dname}, #{loc})
+	</insert>
+</mapper>

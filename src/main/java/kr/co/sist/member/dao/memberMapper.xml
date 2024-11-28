@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.sist.member">
+
+	<!-- 아이디 중복 체크 -->
+	<select id="selectIdDup" resultType="string"
+		parameterType="String">
+		SELECT id FROM web_member
+		WHERE
+		id = #{id}
+	</select>
+
+	<!-- 회원 정보 추가 -->
+	<insert id="insertMember" parameterType="webMemberVO">
+		INSERT INTO web_member
+		(id, pass, name, birth, tel,
+		tel_flag, email, gender,
+		location, zipcode,
+		addr, addr2, ip)
+		VALUES
+		(#{id},
+		#{pass}, #{name}, #{birth}, #{tel},
+		#{tel_flag}, #{email},
+		#{gender},
+		#{location}, #{zipcode}, #{addr1},
+		#{addr2}, #{ip})
+	</insert>
+
+
+	<!-- 관심 언어 추가 -->
+	<insert id="insertLang" parameterType="webMemberLangVO">
+		INSERT INTO
+		web_member_lang (id, lang)
+		VALUES (#{id}, #{lang})
+	</insert>
+
+
+
+</mapper>
+

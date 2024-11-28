@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<properties resource="properties/database.properties" />
+
+	<typeAliases>
+		<!-- Domain -->
+		<typeAlias type="kr.co.sist.domain.RestDomain"
+			alias="restDomain" />
+		<typeAlias type="kr.co.sist.domain.EmpDomain"
+			alias="empDomain" />
+		<typeAlias type="kr.co.sist.domain.BoardDomain"
+			alias="boardDomain" />
+		<typeAlias type="kr.co.sist.domain.WebMemberDomain"
+			alias="webMemberDomain" />
+		<typeAlias type="kr.co.sist.domain.BoardInfoDomain"
+			alias="boardInfoDomain" />
+
+		<!-- VO -->
+		<typeAlias type="kr.co.sist.vo.TransactionVO"
+			alias="transactionVO" />
+		<typeAlias type="kr.co.sist.vo.OgnlVO" alias="ognlVO" />
+		<typeAlias type="kr.co.sist.vo.EmpVO" alias="empVO" />
+		<typeAlias type="day1122.CpEmp2VO" alias="cpEmp2VO" />
+		<typeAlias type="day1122.SelectProcedureVO"
+			alias="selectProcedureVO" />
+
+		<!-- 게시판에 검색을하기위한 값을 저장하는 VO -->
+		<typeAlias type="kr.co.sist.user.board.SearchVO"
+			alias="searchVO" />
+		<typeAlias type="kr.co.sist.user.board.MBoardDomain"
+			alias="mBoardDomain" />
+		<typeAlias type="kr.co.sist.user.board.MBoardVO"
+			alias="mBoardVO" />
+
+
+
+
+		<!--회원정보 저장 -->
+		<typeAlias type="kr.co.sist.member.dao.WebMemberVO"
+			alias="webMemberVO" />
+		<!-- 회원정보 중 관심언어 저장 -->
+		<typeAlias type="kr.co.sist.member.dao.WebMemberLangVO"
+			alias="webMemberLangVO" />
+	</typeAliases>
+
+
+	<environments default="development">
+		<environment id="development">
+			<transactionManager type="JDBC" />
+			<dataSource type="POOLED">
+				<property name="driver" value="${driver}" />
+				<property name="url" value="${connectionURL}" />
+				<property name="username" value="${username}" />
+				<property name="password" value="${password}" />
+			</dataSource>
+		</environment>
+	</environments>
+	<mappers>
+		<mapper resource="day1111/examMapper.xml" />
+		<mapper resource="day1112/examMapper2.xml" />
+
+		<!-- select 연습 -->
+		<mapper resource="kr/co/sist/mapper/selectMapper.xml" />
+		<mapper resource="kr/co/sist/mapper/selectMapper2.xml" />
+		<mapper resource="kr/co/sist/mapper/selectMapper3.xml" />
+		<mapper resource="kr/co/sist/mapper/selectMapper4.xml" />
+		<mapper resource="kr/co/sist/mapper/selectMapper5.xml" />
+		<mapper resource="kr/co/sist/mapper/selectMapper6.xml" />
+
+		<!-- 회원관련 Mapper -->
+		<mapper resource="kr/co/sist/member/dao/memberMapper.xml" />
+
+		<!-- 게시판 Mapper -->
+		<mapper resource="kr/co/sist/user/board/boardMapper.xml" />
+
+	</mappers>
+</configuration>

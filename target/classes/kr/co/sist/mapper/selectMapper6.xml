@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.sist.select6">
+
+	<!-- PLSQL insert -->
+	<select id="plsql_insert" parameterType="cpEmp2VO"
+		statementType="CALLABLE">
+		{
+		call insert_cp_emp(#{empno, mode=IN, jdbcType=NUMERIC},
+		#{ename, mode=IN, jdbcType=VARCHAR},
+		#{job, mode=IN, jdbcType=VARCHAR},
+		#{mgr, mode=IN, jdbcType=NUMERIC},
+		#{sal, mode=IN, jdbcType=NUMERIC},
+		#{comm, mode=IN, jdbcType=NUMERIC},
+		#{deptno, mode=IN,
+		jdbcType=NUMERIC},
+
+		#{cnt, mode=OUT, jdbcType=NUMERIC},
+		#{msg, mode=OUT,
+		jdbcType=VARCHAR}
+
+		)
+		}
+	</select>
+
+
+	<!-- PLSQL update -->
+	<select id="plsql_update" parameterType="cpEmp2VO"
+		statementType="CALLABLE">
+		call
+		update_cp_emp(#{empno,mode=IN,jdbcType=NUMERIC},
+		#{job,mode=IN,jdbcType=VARCHAR},
+		#{sal,mode=IN,jdbcType=NUMERIC},
+		#{comm,mode=IN,jdbcType=NUMERIC},
+		#{deptno,mode=IN,jdbcType=NUMERIC},
+		#{cnt,mode=OUT,jdbcType=NUMERIC},
+		#{msg,mode=OUT,jdbcType=VARCHAR}
+		)
+	</select>
+
+	<!-- PLSQL delete -->
+	<select id="plsql_delete" parameterType="cpEmp2VO"
+		statementType="CALLABLE">
+		call
+		delete_cp_emp(#{empno,mode=IN,jdbcType=NUMERIC},
+		#{cnt,mode=OUT,jdbcType=NUMERIC},
+		#{msg,mode=OUT,jdbcType=VARCHAR}
+		)
+	</select>
+
+	<!-- PLSQL select 한 행 조회 -->
+	<select id="plsql_selectOne" parameterType="selectProcedureVO"
+		statementType="CALLABLE">
+
+		{
+		call select_cp_emp(
+		#{empno,mode=IN,jdbcType=NUMERIC},
+		#{resultMsg,mode=OUT,jdbcType=VARCHAR},
+		#{errMsg,mode=OUT,jdbcType=VARCHAR}
+		)
+		}
+	</select>
+
+	<!-- PLSQL select : plsql_select여러행 조회 -->
+	<resultMap type="hashmap" id="map" />
+	<select id="plsql_select" statementType="CALLABLE">
+		{
+		call
+		select_cp_emp_dept(
+		#{deptno, mode=IN, jdbcType=NUMERIC},
+		#{selectEmp,
+		mode=OUT, jdbcType=CURSOR, javaType=java.sql.ResultSet, resultMap=map
+		},
+		#{errMsg, mode=OUT, jdbcType=VARCHAR, resultMap=map}
+
+		)
+		}
+
+	</select>
+
+
+
+</mapper>

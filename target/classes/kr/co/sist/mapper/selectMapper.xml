@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.sist.test2">
+
+	<!-- 행하나 컬럼하나 조회 : srsc -->
+	<select id="srsc" resultType="String" parameterType="Integer">
+		select dname
+		from dept
+		where deptno=#{asdfasdfds}
+	</select>
+
+
+	<!-- 행하나 컬럼 여러개 조회 -->
+	<select id="srmc" resultType="kr.co.sist.domain.EmpDomain"
+		parameterType="int">
+		select ename, job, sal, hiredate
+		from emp
+		where
+		empno=#{empno}
+	</select>
+
+
+	<!-- 행여러개 컬럼하나 조회 -->
+	<!-- 행여러개 컬럼여러개 조회 -->
+	<!-- 작은 값조회 -->
+	<!-- 큰 값조회 -->
+	<!-- like 조회 -->
+	<!-- subquery조회 -->
+	<!-- union조회 -->
+	<!-- join조회 -->
+	<!-- join&amp;subquery조회 -->
+	<!-- dynamic query조회 -->
+	<!-- transection -->
+	<!-- OGNL if조회 -->
+	<!-- OGNL choose조회 -->
+	<!-- OGNL foreach조회 -->
+	<!-- PLSQL insert -->
+	<!-- PLSQL select -->
+
+
+</mapper>

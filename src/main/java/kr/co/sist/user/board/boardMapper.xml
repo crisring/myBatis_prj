@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.sist.board">
+
+	<select id="totalCnt" resultType="int" parameterType="searchVO">
+
+		select count(num) cnt
+		from m_board
+		<where>
+			<if test="keyword neq null and keyword neq ''">
+				<choose>
+					<when test="field eq 0">
+						instr(subject,#{keyword}) != 0
+					</when>
+					<when test="field eq 1">
+						instr(content,#{keyword}) != 0
+					</when>
+					<otherwise>
+						instr(writer,#{keyword}) != 0
+					</otherwise>
+				</choose>
+			</if>
+		</where>
+	</select>
+
+	<!-- 검색값과 시작번호, 끝번호를 가진 VO를 넣어서 검색을 수행 -->
+	<select id="selectBoard" resultType="mBoardDomain"
+		parameterType="searchVO">
+
+		select
+		num,subject,
+		writer,input_date,ip
+		from (select num,subject,
+		writer,input_date,ip,
+		row_number() over( order by
+		input_date desc) rnum
+		from m_board
+
+		<where>
+			<if test="keyword neq null and keyword neq ''">
+				<choose>
+					<when test="field eq 0">
+						instr(subject,#{keyword}) != 0
+					</when>
+					<when test="field eq 1">
+						instr(content,#{keyword}) != 0
+					</when>
+					<otherwise>
+						instr(writer,#{keyword}) != 0
+					</otherwise>
+				</choose>
+			</if>
+		</where>
+		)where rnum between #{startNum} and #{endNum}
+	</select>
+
+	<insert id="insertBoard" parameterType="mBoardVO">
+
+		insert into
+		m_board(num,subject,content,writer,ip,pass)
+		values(
+		seq_board.nextval,#{subject},#{content},#{writer},#{ip},#{pass})
+
+	</insert>
+
+	<select id="selectDetailBoard" resultType="mBoardDomain"
+		parameterType="int">
+
+		select num,subject,content, writer,input_date,ip
+		from
+		m_board
+		where num=#{num}
+
+	</select>
+
+	<update id="updateBoard" parameterType="mBoardVO">
+		update m_board
+		<set>
+			<if test="subject neq null and subject neq '' ">
+				subject=#{subject},
+			</if>
+			<if test="content neq null and content neq '' ">
+				content=#{content}
+			</if>
+		</set>
+		where num=#{num} and writer=#{writer} and pass=#{pass}
+	</update>
+
+	<delete id="deleteBoard" parameterType="mBoardVO">
+		delete from m_board
+		where
+		num=#{num} and writer=#{writer} and pass=#{pass}
+	</delete>
+
+</mapper>
+

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.sist.select4">
+
+
+	<!-- 테이블명이 동적일 때 조회 ${}사용... EL? -->
+
+
+	<select id="dollarSign" resultType="empDomain"
+		parameterType="String">
+		select empno, ename, job, sal,
+		to_char(hiredate,'yyyy-mm-dd') hiredateStr,
+		deptno
+		from ${tableName}
+
+	</select>
+
+	<!-- transection -->
+	<insert id="transaction" parameterType="transactionVO">
+		insert into
+		test_transaction(name,addr) values (#{name},#{addr})
+	</insert>
+
+	<insert id="transaction2" parameterType="transactionVO">
+		insert into
+		test_transaction2(name,addr) values (#{name}, #{addr})
+	</insert>
+
+
+	<!-- dynamic query조회 -->
+	<!-- OGNL if조회 -->
+	<!-- OGNL choose조회 -->
+	<!-- OGNL foreach조회 -->
+	<!-- PLSQL insert -->
+	<!-- PLSQL select -->
+
+
+</mapper>
